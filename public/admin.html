@@ -23,28 +23,26 @@
     <section class="admin-section">
       <h2 class="admin-section-title">Crear nueva instancia</h2>
 
-      <div class="alert alert-error" id="createError" role="alert"></div>
-
       <form id="createForm" novalidate>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label" for="cf-username">Usuario</label>
-            <input class="form-input" type="text" id="cf-username" name="username" required placeholder="Usuario para el cliente">
+            <input class="form-input" type="text" id="cf-username" name="username" placeholder="Usuario para el cliente">
           </div>
           <div class="form-group">
             <label class="form-label" for="cf-password">Contraseña</label>
-            <input class="form-input" type="text" id="cf-password" name="password" required placeholder="Contraseña para el cliente">
+            <input class="form-input" type="text" id="cf-password" name="password" placeholder="Contraseña para el cliente">
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label class="form-label" for="cf-createdBy">Creado por</label>
-            <input class="form-input" type="text" id="cf-createdBy" name="createdBy" required placeholder="Tu nombre">
+            <input class="form-input" type="text" id="cf-createdBy" name="createdBy" placeholder="Tu nombre">
           </div>
           <div class="form-group">
             <label class="form-label" for="cf-clientName">Nombre del cliente</label>
-            <input class="form-input" type="text" id="cf-clientName" name="clientName" required placeholder="Nombre completo">
+            <input class="form-input" type="text" id="cf-clientName" name="clientName" placeholder="Nombre completo">
           </div>
         </div>
 
@@ -76,7 +74,7 @@
 
       <!-- Generated result -->
       <div class="generated-result" id="generatedResult">
-        <div class="generated-result-title" id="generatedTitle">Link generado exitosamente</div>
+        <div class="generated-result-title">Link generado exitosamente</div>
         <div class="generated-result-item">
           <strong>Instance ID:</strong>
           <span id="genInstanceId"></span>
@@ -97,19 +95,8 @@
       </div>
     </section>
 
-    <!-- Instances List -->
-    <section class="admin-section">
-      <h2 class="admin-section-title">Instancias creadas</h2>
-      <div id="instancesList">
-        <div class="empty-state" id="emptyState">
-          <div class="empty-state-icon">&#128203;</div>
-          <p class="empty-state-text">Aún no hay instancias creadas.</p>
-        </div>
-      </div>
-    </section>
-
   </main>
 
-  <script src="/js/admin.js"></script>
+  <script src="js/admin.js"></script>
 </body>
 </html>

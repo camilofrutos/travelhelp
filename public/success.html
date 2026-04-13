@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Supra — Enviado</title>
-  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <div class="success-wrapper">
@@ -26,14 +26,12 @@
     </div>
   </div>
 
-  <script src="/js/i18n.js"></script>
+  <script src="js/i18n.js"></script>
   <script>
     (function() {
       var params = new URLSearchParams(window.location.search);
       var lang = params.get('lang') || 'es';
-
       document.documentElement.lang = lang === 'pt' ? 'pt' : lang === 'en' ? 'en' : 'es';
-
       document.getElementById('successTitle').textContent = t('successTitle', lang);
       document.getElementById('successMessage').textContent = t('successMessage', lang);
       document.getElementById('successThank').textContent = t('successThank', lang);
