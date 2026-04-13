@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supra — Panel de Formularios</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="admin-header">
+    <div class="brand">
+      <div class="brand-logo" id="brandLogo">S</div>
+      <span class="brand-name">Panel de Formularios</span>
+    </div>
+    <button class="btn btn-ghost btn-sm" id="logoutBtn">Cerrar sesión</button>
+  </header>
+
+  <!-- Body -->
+  <main class="admin-body">
+
+    <!-- Create Instance Section -->
+    <section class="admin-section">
+      <h2 class="admin-section-title">Crear nueva instancia</h2>
+
+      <div class="alert alert-error" id="createError" role="alert"></div>
+
+      <form id="createForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="cf-username">Usuario</label>
+            <input class="form-input" type="text" id="cf-username" name="username" required placeholder="Usuario para el cliente">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-password">Contraseña</label>
+            <input class="form-input" type="text" id="cf-password" name="password" required placeholder="Contraseña para el cliente">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="cf-createdBy">Creado por</label>
+            <input class="form-input" type="text" id="cf-createdBy" name="createdBy" required placeholder="Tu nombre">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-clientName">Nombre del cliente</label>
+            <input class="form-input" type="text" id="cf-clientName" name="clientName" required placeholder="Nombre completo">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="cf-clientEmail">Email del cliente</label>
+            <input class="form-input" type="email" id="cf-clientEmail" name="clientEmail" placeholder="email@ejemplo.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-language">Idioma del formulario</label>
+            <select class="form-select" id="cf-language" name="language">
+              <option value="es">Español</option>
+              <option value="en">English</option>
+              <option value="pt">Português</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cf-notes">Notas</label>
+          <textarea class="form-textarea" id="cf-notes" name="notes" rows="3" placeholder="Notas internas opcionales..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="createBtn">
+          <span class="spinner"></span>
+          <span class="btn-text">Generar link</span>
+        </button>
+      </form>
+
+      <!-- Generated result -->
+      <div class="generated-result" id="generatedResult">
+        <div class="generated-result-title" id="generatedTitle">Link generado exitosamente</div>
+        <div class="generated-result-item">
+          <strong>Instance ID:</strong>
+          <span id="genInstanceId"></span>
+        </div>
+        <div class="generated-result-item">
+          <strong>Slug:</strong>
+          <span id="genSlug"></span>
+        </div>
+        <div class="generated-result-item">
+          <strong>Idioma:</strong>
+          <span id="genLanguage"></span>
+        </div>
+        <div class="copy-link-wrapper">
+          <span class="copy-link-text" id="genLink"></span>
+          <button class="btn btn-primary btn-sm" id="copyLinkBtn">Copiar link</button>
+        </div>
+        <div class="copy-feedback" id="copyFeedback">Copiado al portapapeles</div>
+      </div>
+    </section>
+
+    <!-- Instances List -->
+    <section class="admin-section">
+      <h2 class="admin-section-title">Instancias creadas</h2>
+      <div id="instancesList">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-state-icon">&#128203;</div>
+          <p class="empty-state-text">Aún no hay instancias creadas.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>
