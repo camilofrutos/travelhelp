@@ -13,9 +13,16 @@
   var copyFeedback = document.getElementById('copyFeedback');
 
   var currentLink = '';
+  var adminToken = localStorage.getItem('adminToken') || '';
 
   // Language display names
   var langNames = { es: 'Español', en: 'English', pt: 'Português' };
+
+  function authHeaders(extra) {
+    var h = Object.assign({ 'Content-Type': 'application/json' }, extra || {});
+    if (adminToken) h['Authorization'] = 'Bearer ' + adminToken;
+    return h;
+  }
 
   // --- Helpers ---
 
@@ -47,8 +54,9 @@
   // --- Logout ---
 
   logoutBtn.addEventListener('click', function () {
-    fetch('/admin/logout', { method: 'POST', credentials: 'same-origin' })
+    fetch('/admin/logout', { method: 'POST', headers: authHeaders(), credentials: 'same-origin' })
       .finally(function () {
+        localStorage.removeItem('adminToken');
         window.location.href = '/login.html';
       });
   });
@@ -81,7 +89,7 @@
 
     fetch('/admin/forms/create', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders(),
       body: JSON.stringify(payload),
       credentials: 'same-origin'
     })
@@ -145,7 +153,7 @@
   // --- Load Instances ---
 
   function loadInstances() {
-    fetch('/admin/forms', { credentials: 'same-origin' })
+    fetch('/admin/forms', { headers: authHeaders(), credentials: 'same-origin' })
       .then(function (res) {
         if (!res.ok) throw new Error('fetch_failed');
         return res.json();

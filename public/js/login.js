@@ -49,7 +49,8 @@
         if (!res.ok) throw new Error('login_failed');
         return res.json();
       })
-      .then(function () {
+      .then(function (data) {
+        if (data.token) localStorage.setItem('adminToken', data.token);
         window.location.href = '/admin.html';
       })
       .catch(function () {
