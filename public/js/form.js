@@ -1,29 +1,71 @@
 /**
- * form.js — DEMO: formulario paso a paso sin backend
- * Toma idioma de ?lang=, renderiza directo, submit va a success.html
+ * form.js — DEMO: resuelve datos del login desde:
+ *   1. querystring ?t= (base64 auto-contenido)
+ *   2. public/data/logins.json (fetch por slug)
+ *   3. fallback: formulario abre directo sin login
  */
 (function () {
-  // --- State ---
   var lang = 'es';
   var currentStep = 0;
   var totalSteps = FORM_STEPS.length;
+  var loginData = null;
 
-  // --- DOM refs ---
   var stepsContainer = document.getElementById('stepsContainer');
   var progressBar = document.getElementById('progressBar');
   var stepCounter = document.getElementById('stepCounter');
 
-  // --- Get language from querystring ---
   var params = new URLSearchParams(window.location.search);
   var qLang = params.get('lang');
-  if (qLang && I18N[qLang]) lang = qLang;
-  document.documentElement.lang = lang;
+  var qSlug = params.get('slug');
+  var qToken = params.get('t');
 
-  // --- Init: render form immediately ---
-  buildSteps();
-  goToStep(0);
+  // ─── Decode base64 token (unicode safe) ────────────────────
+  function decodeToken(str) {
+    try {
+      var s = str.replace(/-/g, '+').replace(/_/g, '/');
+      while (s.length % 4) s += '=';
+      return JSON.parse(decodeURIComponent(escape(atob(s))));
+    } catch (e) { return null; }
+  }
 
-  // --- Build Steps ---
+  // ─── Resolve login data, then init form ────────────────────
+  resolveLoginData(function (data) {
+    loginData = data;
+    if (data && data.language && I18N[data.language]) {
+      lang = data.language;
+    } else if (qLang && I18N[qLang]) {
+      lang = qLang;
+    }
+    document.documentElement.lang = lang;
+    buildSteps();
+    goToStep(0);
+  });
+
+  function resolveLoginData(cb) {
+    // 1. Try URL token
+    if (qToken) {
+      var decoded = decodeToken(qToken);
+      if (decoded) return cb(decoded);
+    }
+
+    // 2. Try JSON file by slug
+    if (qSlug) {
+      fetch('data/logins.json', { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (json) {
+          if (!json || !json.logins) return cb(null);
+          var found = json.logins.find(function (l) { return l.slug === qSlug; });
+          cb(found || null);
+        })
+        .catch(function () { cb(null); });
+      return;
+    }
+
+    // 3. No data → open demo
+    cb(null);
+  }
+
+  // ─── Build Steps ───────────────────────────────────────────
   function buildSteps() {
     stepsContainer.innerHTML = '';
 
@@ -42,7 +84,6 @@
         html += buildField(field);
       });
 
-      // Navigation
       html += '<div class="form-step-nav">';
       if (idx > 0) {
         html += '<button type="button" class="btn btn-secondary" data-action="prev">' + esc(t('formPrev', lang)) + '</button>';
@@ -65,7 +106,6 @@
       stepsContainer.appendChild(stepEl);
     });
 
-    // Nav click handler
     stepsContainer.addEventListener('click', function (e) {
       var btn = e.target.closest('[data-action]');
       if (!btn) return;
@@ -75,7 +115,6 @@
       if (action === 'submit') submitDemo();
     });
 
-    // Enter to advance
     stepsContainer.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
         e.preventDefault();
@@ -139,7 +178,6 @@
     return html;
   }
 
-  // --- Navigation ---
   function goToStep(idx) {
     currentStep = idx;
     var allSteps = stepsContainer.querySelectorAll('.form-step');
@@ -170,12 +208,10 @@
     stepCounter.textContent = (currentStep + 1) + ' ' + t('formStepOf', lang) + ' ' + totalSteps;
   }
 
-  // --- Submit demo ---
   function submitDemo() {
     window.location.href = 'success.html?lang=' + encodeURIComponent(lang);
   }
 
-  // --- Utils ---
   function esc(str) {
     var div = document.createElement('div');
     div.textContent = str;
@@ -185,5 +221,4 @@
   function escAttr(str) {
     return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
-
 })();

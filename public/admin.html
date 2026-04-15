@@ -93,6 +93,28 @@
             <button class="btn btn-primary btn-sm" id="copyLinkBtn">Copiar link</button>
           </div>
           <div class="copy-feedback" id="copyFeedback">Copiado al portapapeles</div>
+
+          <div class="json-export">
+            <div class="json-export-header">
+              <span class="json-export-label">Guardar en <code>public/data/logins.json</code> (opcional)</span>
+              <button class="btn btn-secondary btn-sm" id="copyJsonBtn">Copiar JSON</button>
+            </div>
+            <pre class="json-export-code" id="genJson"></pre>
+            <div class="copy-feedback" id="copyJsonFeedback">JSON copiado</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Historial local -->
+      <section class="admin-section">
+        <div class="section-header-row">
+          <h2 class="admin-section-title" style="margin-bottom:0;">Historial (este navegador)</h2>
+          <button class="btn btn-ghost btn-sm" id="clearHistoryBtn">Limpiar</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+        <div id="historyEmpty" class="empty-state">
+          <div class="empty-state-icon">◌</div>
+          <p class="empty-state-text">No hay instancias creadas todavía.</p>
         </div>
       </section>
 

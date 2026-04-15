@@ -1,0 +1,16 @@
+{
+  "logins": [
+    {
+      "slug": "demo-cliente",
+      "instanceId": "demo-001",
+      "username": "cliente",
+      "password": "demo1234",
+      "clientName": "Cliente Demo",
+      "clientEmail": "demo@supra.com",
+      "createdBy": "Admin",
+      "language": "es",
+      "notes": "Login de demostración",
+      "createdAt": "2026-04-15T00:00:00.000Z"
+    }
+  ]
+}
